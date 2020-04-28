@@ -73,6 +73,7 @@ const IssueListOverview = createReactClass({
   ],
 
   getInitialState() {
+    console.log('IssueListOverview getInitialState', Date.now());
     const realtimeActiveCookie = Cookies.get('realtimeActive');
     const realtimeActive =
       typeof realtimeActiveCookie === 'undefined'
@@ -105,6 +106,7 @@ const IssueListOverview = createReactClass({
       success: this.onRealtimePoll,
     });
 
+    // TODO(perf)
     this.fetchTags();
     this.fetchMemberList();
 
@@ -123,6 +125,7 @@ const IssueListOverview = createReactClass({
       }
     }
 
+    // TODO(perf)
     // If the project selection has changed reload the member list and tag keys
     // allowing autocomplete and tag sidebar to be more accurate.
     if (!isEqual(prevProps.selection.projects, this.props.selection.projects)) {
@@ -531,6 +534,7 @@ const IssueListOverview = createReactClass({
   },
 
   renderLoading() {
+    console.log('IssueListOverview renderloading', Date.now());
     return <LoadingIndicator />;
   },
 
@@ -593,6 +597,7 @@ const IssueListOverview = createReactClass({
   },
 
   render() {
+    console.log('IssueListOverview render', Date.now());
     if (this.props.savedSearchLoading) {
       return this.renderLoading();
     }

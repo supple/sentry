@@ -99,6 +99,7 @@ const IssueList = createReactClass({
   renderResults() {
     let body;
     const {noBorder, noMargin} = this.props;
+    console.log('issuelist render results');
 
     if (this.state.loading) {
       body = this.renderLoading();

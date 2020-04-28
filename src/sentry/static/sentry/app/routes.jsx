@@ -1147,7 +1147,7 @@ function routes() {
 
         <Route
           path="/organizations/:orgId/issues/"
-          component={errorHandler(IssueListContainer)}
+          component={errorHandler(IssueListContainer, 'issuelistcontainer')}
         >
           <Redirect from="/organizations/:orgId/" to="/organizations/:orgId/issues/" />
           <IndexRoute component={errorHandler(IssueListOverview)} />

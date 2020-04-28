@@ -14,9 +14,15 @@ export default function withProfiler<P extends InjectedProps>(
 
   return class extends React.Component<Omit<P, keyof InjectedProps>> {
     static displayName = `profiler(${componentDisplayName})`;
+    constructor(props) {
+      super(props);
+
+      console.warn('loadingindicator mount');
+    }
 
     componentWillUnmount() {
       this.finishProfile();
+      console.warn('loadingindicator unmount');
     }
 
     activity: number | null = Integrations.Tracing.pushActivity(

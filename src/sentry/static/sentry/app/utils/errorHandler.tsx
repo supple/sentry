@@ -1,6 +1,7 @@
 import React from 'react';
 
 import RouteError from 'app/views/routeError';
+import 'app/utils/silence-react-unsafe-warnings';
 
 type State = {
   hasError: boolean;

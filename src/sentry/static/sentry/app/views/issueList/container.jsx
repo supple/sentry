@@ -12,12 +12,19 @@ class IssueListContainer extends React.Component {
     organization: SentryTypes.Organization,
   };
 
+  constructor(props) {
+    super(props);
+
+    console.log(`START IssueListContainer -- ${Date.now()}`);
+  }
+
   getTitle() {
     return `Issues - ${this.props.organization.slug} - Sentry`;
   }
 
   render() {
     const {organization, children} = this.props;
+    console.log(`RENDER IssueListContainer -- ${Date.now()}`);
 
     return (
       <DocumentTitle title={this.getTitle()}>

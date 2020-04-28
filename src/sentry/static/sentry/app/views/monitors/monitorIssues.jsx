@@ -18,6 +18,7 @@ export default class MonitorIssues extends Component {
   render() {
     const {monitor, orgId} = this.props;
 
+    console.log('issuelist monitor');
     return (
       <IssueList
         endpoint={this.getIssuesPath()}

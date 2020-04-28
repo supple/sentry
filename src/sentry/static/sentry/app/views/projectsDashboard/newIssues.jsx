@@ -31,6 +31,7 @@ export default class NewIssues extends React.Component {
   };
 
   render() {
+    console.log('issuelist new');
     return (
       <div>
         <div className="pull-right">
