@@ -132,6 +132,8 @@ class TeamSerializer(Serializer):
 
 class TeamWithProjectsSerializer(TeamSerializer):
     def get_attrs(self, item_list, user):
+        from sentry.api.serializers.models.project import ProjectSerializer
+
         project_teams = list(
             ProjectTeam.objects.filter(team__in=item_list, project__status=ProjectStatus.VISIBLE)
             .order_by("project__name", "project__slug")
@@ -145,9 +147,8 @@ class TeamWithProjectsSerializer(TeamSerializer):
             project_team.project._organization_cache = orgs[project_team.project.organization_id]
 
         projects = [pt.project for pt in project_teams]
-        projects_by_id = {
-            project.id: data for project, data in zip(projects, serialize(projects, user))
-        }
+        serialized_projects = serialize(projects, user, ProjectSerializer(include_features=False))
+        projects_by_id = {project.id: data for project, data in zip(projects, serialized_projects)}
 
         project_map = defaultdict(list)
         for project_team in project_teams:
