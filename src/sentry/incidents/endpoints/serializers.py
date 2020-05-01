@@ -389,6 +389,10 @@ class AlertRuleSerializer(CamelSnakeModelSerializer):
                 "warning trigger".format(threshold_type)
             )
 
+    def validate_environment(self, environment):
+        if environment:
+            return environment[0]
+
     def create(self, validated_data):
         try:
             with transaction.atomic():
