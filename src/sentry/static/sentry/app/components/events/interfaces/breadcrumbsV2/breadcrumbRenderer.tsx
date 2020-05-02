@@ -1,29 +1,28 @@
 import React from 'react';
 
-import HttpRenderer from '../breadcrumbs/httpRenderer';
-import DefaultRenderer from '../breadcrumbs/defaultRenderer';
-import ErrorRenderer from '../breadcrumbs/errorRenderer';
-import {Breadcrumb, BreadcrumbType} from '../breadcrumbs/types';
+import {t} from 'app/locale';
+
+import {Breadcrumb} from '../breadcrumbs/types';
+import BreadcrumbCategory from './breadcrumbCategory';
+import BreadcrumbLevel from './breadcrumbLevel';
 
 type Props = {
   breadcrumb: Breadcrumb;
 };
 
-const BreadcrumbRenderer = ({breadcrumb}: Props) => {
-  if (breadcrumb.type === BreadcrumbType.HTTP) {
-    return <HttpRenderer breadcrumb={breadcrumb} />;
-  }
-
-  if (
-    breadcrumb.type === BreadcrumbType.WARNING ||
-    breadcrumb.type === BreadcrumbType.MESSAGE ||
-    breadcrumb.type === BreadcrumbType.EXCEPTION ||
-    breadcrumb.type === BreadcrumbType.ERROR
-  ) {
-    return <ErrorRenderer breadcrumb={breadcrumb} />;
-  }
-
-  return <DefaultRenderer breadcrumb={breadcrumb} />;
+const BreadcrumbRenderer = ({breadcrumb: {category, level}}: Props) => {
+  return (
+    <div>
+      <div>
+        {t('Category:')}
+        <BreadcrumbCategory category={category} />
+      </div>
+      <div>
+        {t('Level:')}
+        <BreadcrumbLevel level={level} />
+      </div>
+    </div>
+  );
 };
 
 export default BreadcrumbRenderer;

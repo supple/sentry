@@ -10,14 +10,13 @@ import space from 'app/styles/space';
 import SearchBar from 'app/components/searchBar';
 import {IconProps} from 'app/types/iconProps';
 
-import {PlatformContextProvider} from '../breadcrumbs/platformContext';
 import BreadcrumbTime from '../breadcrumbs/breadcrumbTime';
 import BreadcrumbCollapsed from '../breadcrumbs/breadcrumbCollapsed';
 import {
   Breadcrumb,
   BreadcrumbDetails,
   BreadcrumbType,
-  BreadcrumbLevel,
+  BreadcrumbLevelType,
 } from '../breadcrumbs/types';
 import BreadcrumbFilter from './breadcrumbFilter/breadcrumbFilter';
 import convertBreadcrumbType from './convertBreadcrumbType';
@@ -138,7 +137,7 @@ class BreadcrumbsContainer extends React.Component<Props, State> {
       const {type, value, module: mdl} = exception.data.values[0];
       return {
         type: BreadcrumbType.EXCEPTION,
-        level: BreadcrumbLevel.ERROR,
+        level: BreadcrumbLevelType.ERROR,
         category: this.moduleToCategory(mdl) || 'exception',
         data: {
           type,
@@ -152,7 +151,7 @@ class BreadcrumbsContainer extends React.Component<Props, State> {
 
     return {
       type: BreadcrumbType.MESSAGE,
-      level: levelTag?.value as BreadcrumbLevel,
+      level: levelTag?.value as BreadcrumbLevelType,
       category: 'message',
       message: event.message,
       timestamp: event.dateCreated,
@@ -241,7 +240,7 @@ class BreadcrumbsContainer extends React.Component<Props, State> {
   };
 
   render() {
-    const {event, type} = this.props;
+    const {type} = this.props;
     const {breadcrumbFilterGroups, searchTerm} = this.state;
 
     const {
@@ -277,37 +276,35 @@ class BreadcrumbsContainer extends React.Component<Props, State> {
       >
         <Content>
           {filteredCollapsedBreadcrumbs.length > 0 ? (
-            <PlatformContextProvider value={{platform: event.platform}}>
-              <BreadCrumbs className="crumbs">
-                {collapsedQuantity > 0 && (
-                  <BreadcrumbCollapsed
-                    onClick={this.handleCollapseToggle}
-                    quantity={collapsedQuantity}
-                  />
-                )}
-                {filteredCollapsedBreadcrumbs.map(
-                  ({color, borderColor, icon, ...crumb}, idx) => {
-                    const Icon = icon as React.ComponentType<IconProps>;
-                    return (
-                      <BreadCrumb
-                        data-test-id="breadcrumb"
-                        key={idx}
-                        hasError={
-                          crumb.type === BreadcrumbType.MESSAGE ||
-                          crumb.type === BreadcrumbType.EXCEPTION
-                        }
-                      >
-                        <BreadCrumbIconWrapper color={color} borderColor={borderColor}>
-                          <Icon />
-                        </BreadCrumbIconWrapper>
-                        <BreadcrumbRenderer breadcrumb={crumb as Breadcrumb} />
-                        <BreadcrumbTime timestamp={crumb.timestamp} />
-                      </BreadCrumb>
-                    );
-                  }
-                )}
-              </BreadCrumbs>
-            </PlatformContextProvider>
+            <BreadCrumbs className="crumbs">
+              {collapsedQuantity > 0 && (
+                <BreadcrumbCollapsed
+                  onClick={this.handleCollapseToggle}
+                  quantity={collapsedQuantity}
+                />
+              )}
+              {filteredCollapsedBreadcrumbs.map(
+                ({color, borderColor, icon, ...crumb}, idx) => {
+                  const Icon = icon as React.ComponentType<IconProps>;
+                  return (
+                    <BreadCrumb
+                      data-test-id="breadcrumb"
+                      key={idx}
+                      hasError={
+                        crumb.type === BreadcrumbType.MESSAGE ||
+                        crumb.type === BreadcrumbType.EXCEPTION
+                      }
+                    >
+                      <BreadCrumbIconWrapper color={color} borderColor={borderColor}>
+                        <Icon />
+                      </BreadCrumbIconWrapper>
+                      <BreadcrumbRenderer breadcrumb={crumb as Breadcrumb} />
+                      <BreadcrumbTime timestamp={crumb.timestamp} />
+                    </BreadCrumb>
+                  );
+                }
+              )}
+            </BreadCrumbs>
           ) : (
             <EmptyStateWarning small>
               {t('Sorry, no breadcrumbs match your search query.')}
